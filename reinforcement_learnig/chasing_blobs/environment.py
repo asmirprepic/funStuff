@@ -17,6 +17,8 @@ class Environment:
     self.q_table_enemy = {}
     self.episodes = episodes
     self.fig, self.ax = plt.subplots(figsize=(5, 5))
+    self.caught_count = 0
+    self.evaded_count = 0
 
   def create_blob(self,blob_name):
     if blob_name in self.blobs:
@@ -110,6 +112,9 @@ class Environment:
 
             episode_reward_player = 0
             episode_reward_enemy = 0
+            caught = False
+
+          
             for i in range(200):  # Number of steps in an episode
                 obs_player = (player-enemy)
                 obs_enemy = (enemy-player)
@@ -150,11 +155,16 @@ class Environment:
                   self.render()
 
                 if player.x == enemy.x and player.y == enemy.y:
+                  caught = True
+                  self.caught_count += 1
                   break
-
+            
+            if not caught:
+               self.evaded_count += 1
             episode_rewards_player.append(episode_reward_player)
             episode_rewards_enemy.append(episode_reward_enemy)
-
+        print(f"Player was caught {self.caught_count} times.")
+        print(f"Player evaded {self.evaded_count} times.")
         return episode_rewards_player, episode_rewards_enemy
 
   def render(self):
