@@ -1,16 +1,17 @@
 from environment import Environment
 import matplotlib.pyplot as plt
+from matplotlib import animation
 
 if __name__ == "__main__":
     size = 10  # Size of the environment
     num_actions = 9  # Number of possible actions
-    learning_rate = 0.1
+    learning_rate = 0.2
     discount = 0.95
     episodes = 10000
-    move_penalty = 1
-    enemy_penalty = 300
+    move_penalty = 0
+    enemy_penalty = 1000
     food_reward = 25
-    epsilon = 0.3  # Initial exploration rate
+    epsilon = 0.99  # Initial exploration rate
     show_every = 1000  # How often to display the environment
 
     # Create environment instance
@@ -20,7 +21,6 @@ if __name__ == "__main__":
     rewards_enemy,rewards_player = env.train(epsilon, show_every)
 
 
-    plt.plot(rewards_player,label = 'players rewards')
-    plt.plot(rewards_enemy,label = 'enemys rewards')
-    plt.legend(loc = 4)
+    # Animate the plot
+    ani = animation.FuncAnimation(env.fig, env.animate, interval=100)
     plt.show()
