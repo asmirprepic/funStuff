@@ -16,13 +16,13 @@ class Environment:
     self.q_table_player = {}
     self.q_table_enemy = {}
     self.episodes = episodes
-    self.fig, self.ax = plt.subplots(figsize=(10, 5))
     self.caught_count = 0
     self.evaded_count = 0
     self.caught_counts = []
     self.evaded_counts = []
     self.player_rewards = []
     self.enemy_rewards = []
+    self.fig, (self.ax1, self.ax2) = plt.subplots(2, 1, figsize=(10, 8))  # Two subplots
 
 
 
@@ -84,9 +84,9 @@ class Environment:
     else: 
       distance = np.sqrt((player.x-enemy.x)**2 + (player.y-enemy.y)**2)
       distance_reward = distance/self.size
-      #promixity_penalty = 1/distance if distance != 0 else -float('inf')
-      survival_reward = 100
-      return distance_reward + survival_reward
+      proximity_penalty = 10 / (distance + 1)
+      survival_reward = 10*(distance/self.size)
+      return distance_reward + survival_reward - proximity_penalty
 
   def calculate_reward_enemy(self,player,enemy):
     if player.x == enemy.x and player.y == enemy.y:
@@ -94,7 +94,7 @@ class Environment:
     else:
       distance = np.sqrt((player.x-enemy.x)**2 + (player.y-enemy.y)**2)
       distance_reward = -distance/self.size
-      chase_reward = 200
+      chase_reward = 20 * ((self.size - distance) / self.size)
       return distance_reward + chase_reward
 
   def choose_action(self,state,q_table,epsilon):
@@ -178,16 +178,53 @@ class Environment:
         print(f"on #{episode}, epsilon is {epsilon}")
         print(f"Player was caught {self.caught_count} times.")
         print(f"Player evaded {self.evaded_count} times.")
+        self.update_plot(episode)
 
       episode_rewards_player.append(episode_reward_player)
       episode_rewards_enemy.append(episode_reward_enemy)
 
-        # # Decay epsilon
-        # if epsilon > 0.1:
-        #    epsilon *= 0.99995
-            
+      # Decay epsilon
+      if epsilon > 0.1:
+         epsilon *= 0.99995
+          
     
     return episode_rewards_player, episode_rewards_enemy
+  
+  def update_plot(self, episode, window_size=100):
+    self.ax1.clear()
+    self.ax2.clear()
+
+    if len(self.player_rewards) >= window_size:
+        ma_player_rewards = self.moving_average(self.player_rewards, window_size)
+        ma_enemy_rewards = self.moving_average(self.enemy_rewards, window_size)
+        self.ax1.plot(ma_player_rewards, label='Player Rewards (MA)')
+        self.ax1.plot(ma_enemy_rewards, label='Enemy Rewards (MA)')
+    else:
+        self.ax1.plot(self.player_rewards, label='Player Rewards')
+        self.ax1.plot(self.enemy_rewards, label='Enemy Rewards')
+
+    self.ax1.legend()
+    self.ax1.set_title(f'Rewards (Episode: {episode})')
+    self.ax1.set_xlabel('Episode')
+    self.ax1.set_ylabel('Reward')
+
+    # Calculate percentages
+    total = self.caught_count + self.evaded_count
+    if total > 0:
+        caught_percentage = (self.caught_count / total) * 100
+        evaded_percentage = (self.evaded_count / total) * 100
+    else:
+        caught_percentage = evaded_percentage = 0
+
+    # Plotting caught counts as a bar chart
+    self.ax2.bar(['Caught', 'Evaded'], [caught_percentage, evaded_percentage], color=['red', 'green'])
+    self.ax2.set_title('Caught and Evaded Counts as Percentage')
+    self.ax2.set_xlabel('Outcome')
+    self.ax2.set_ylabel('Percentage')
+
+    plt.draw()
+    plt.pause(0.01)
+
   def moving_average(self,data,window_size):
     return np.convolve(data,np.ones(window_size)/window_size,mode='valid')
   
@@ -214,17 +251,7 @@ class Environment:
     cv2.imshow("Environment", img)
     cv2.waitKey(1)
 
-  def animate(self,i):
-    self.ax.clear()
-    self.ax.plot(self.moving_average(self.player_rewards,100),label = 'Player rewards (MA)')
-    self.ax.plot(self.moving_average(self.enemy_rewards,100),label = 'Enemy rewards (MA)')
-    self.ax.plot(self.caught_counts,label = 'Caught counts')
-    self.ax.plot(self.evaded_counts,label = 'Evaded counts')
-    self.ax.set_title(f'Training Progress (Episode {i})')
-    self.ax.set_xlabel('Episodes')
-    self.ax.set_ylabel('Rewards / Counts')
-    
-
+  
 
 
 

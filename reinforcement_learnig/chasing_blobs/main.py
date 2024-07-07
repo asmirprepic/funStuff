@@ -5,7 +5,7 @@ from matplotlib import animation
 if __name__ == "__main__":
     size = 10  # Size of the environment
     num_actions = 9  # Number of possible actions
-    learning_rate = 0.2
+    learning_rate = 0.1
     discount = 0.95
     episodes = 10000
     move_penalty = 0
@@ -21,6 +21,4 @@ if __name__ == "__main__":
     rewards_enemy,rewards_player = env.train(epsilon, show_every)
 
 
-    # Animate the plot
-    ani = animation.FuncAnimation(env.fig, env.animate, interval=100)
-    plt.show()
+   
