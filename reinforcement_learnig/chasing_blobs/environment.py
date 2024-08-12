@@ -86,7 +86,7 @@ class Environment:
       distance_reward = distance/self.size
       proximity_penalty = 10 / (distance + 1)
       survival_reward = 10*(distance/self.size)
-      return distance_reward + survival_reward - proximity_penalty
+      return   survival_reward #- proximity_penalty
 
   def calculate_reward_enemy(self,player,enemy):
     if player.x == enemy.x and player.y == enemy.y:
@@ -133,7 +133,7 @@ class Environment:
         #    action = np.random.randint(0, self.num_actions)
 
         action_player = self.choose_action(obs_player,self.q_table_player,epsilon)
-        action_enemy = self.epsilon_greedy_action(obs_enemy,self.q_table_enemy,epsilon)
+        action_enemy = self.choose_action(obs_enemy,self.q_table_enemy,epsilon)
 
         
         player.action(action_player)

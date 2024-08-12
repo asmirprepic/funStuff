@@ -7,7 +7,7 @@ if __name__ == "__main__":
     num_actions = 9  # Number of possible actions
     learning_rate = 0.1
     discount = 0.95
-    episodes = 10000
+    episodes = 10_000_0
     move_penalty = 0
     enemy_penalty = 1000
     food_reward = 25
