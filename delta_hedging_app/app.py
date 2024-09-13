@@ -23,40 +23,29 @@ steps = st.sidebar.number_input("Number of time steps",min_value=1,value = 100,s
 # Generate strike prices for the price matrix
 time_points,pnl,stock_prices,hedge_positions = simulate_delta_heding(S0,K,T,r,sigma,steps)
 
-# Plot the PnL Over Time
+# Create a DataFrame for Streamlit plotting
+data = pd.DataFrame({
+    'Time to Maturity': time_points,
+    'PnL': pnl,
+    'Stock Price': stock_prices,
+    'Delta Hedge': hedge_positions
+})
+
+# Plot the PnL Over Time using Streamlit's line_chart
 st.subheader("PnL Evolution Over Time")
-plt.figure(figsize=(10, 6))
-plt.plot(time_points, pnl, label='PnL', color='green')
-plt.title("PnL from Delta Hedging Over Time")
-plt.xlabel("Time to Maturity")
-plt.ylabel("PnL")
-plt.grid(True)
-st.pyplot(plt)
+st.line_chart(data[['Time to Maturity', 'PnL']].set_index('Time to Maturity'))
 
-# Plot the Stock Prices Over Time
+# Plot the Stock Prices Over Time using Streamlit's line_chart
 st.subheader("Stock Price Evolution Over Time")
-plt.figure(figsize=(10, 6))
-plt.plot(time_points, stock_prices, label='Stock Price', color='blue')
-plt.title("Simulated Stock Prices (GBM) Over Time")
-plt.xlabel("Time to Maturity")
-plt.ylabel("Stock Price")
-plt.grid(True)
-st.pyplot(plt)
+st.line_chart(data[['Time to Maturity', 'Stock Price']].set_index('Time to Maturity'))
 
-# Plot the Delta Hedge Over Time
+# Plot the Delta Hedge Positions Over Time using Streamlit's line_chart
 st.subheader("Delta Hedge Position Over Time")
-plt.figure(figsize=(10, 6))
-plt.plot(time_points, hedge_positions, label='Delta Hedge', color='orange')
-plt.title("Delta Hedge Positions Over Time")
-plt.xlabel("Time to Maturity")
-plt.ylabel("Delta Hedge (Number of Shares)")
-plt.grid(True)
-st.pyplot(plt)
-
+st.line_chart(data[['Time to Maturity', 'Delta Hedge']].set_index('Time to Maturity'))
 
 
 # Display the heatmap in Streamlit
-st.pyplot(plt)
+
 st.write("""
     ### What is Delta Hedging?
     Delta hedging is a strategy used to mitigate the directional risk associated with price movements in the underlying asset. 
