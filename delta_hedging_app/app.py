@@ -4,7 +4,7 @@ import numpy as np
 #from delta_hedging.delta_hedge import option_delta  # Import the Black-Scholes logic
 #from delta_hedging.stock_simulation import simulate_stock_price
 from delta_hedging_app.delta_hedging.delta_hedge import simulate_delta_heding
-from delta_hedging_appcomponents.header import display_header     # Import the header component
+from delta_hedging_app.components.header import display_header     # Import the header component
 import seaborn as sns
 import matplotlib.pyplot as plt
 # Display Header
