@@ -12,7 +12,7 @@ def option_delta(S,K,T,r,sigma,type):
     if type == "put":
         return norm.cdf(d1)-1
     
-def simulate_delta_heding(S0,K,T,r,sigma,steps):
+def simulate_delta_hedge(S0,K,T,r,sigma,steps):
     """
     Simulates the PnL from delta hedging over time using stock prices from GBM.
     
