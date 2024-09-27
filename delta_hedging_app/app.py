@@ -21,7 +21,7 @@ steps = st.sidebar.number_input("Number of time steps",min_value=1,value = 100,s
 
 
 # Generate strike prices for the price matrix
-time_points,pnl,stock_prices,hedge_positions = simulate_delta_heding(S0,K,T,r,sigma,steps)
+time_points,pnl,stock_prices,hedge_positions = simulate_delta_hedge(S0,K,T,r,sigma,steps)
 
 # Create a DataFrame for Streamlit plotting
 data = pd.DataFrame({
