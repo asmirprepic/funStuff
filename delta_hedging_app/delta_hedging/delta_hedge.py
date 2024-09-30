@@ -55,4 +55,19 @@ def simulate_delta_hedge(S0,K,T,r,sigma,steps):
         cash_balance[t] = cash_balance[t-1] - (hedge_positions[t]-hedge_positions[t-1])*stock_prices[t]
 
         pnl[t] = option_value + cash_balance[t] - hedge_positions[t]*stock_prices[t]
+
+    # Final PnL at maturity
+    # At maturity, option value becomes intrinsic value: max(S_T - K, 0)
+    intrinsic_value = max(stock_prices[-1] - K, 0)
+
+    # Final portfolio value: cash balance + hedge position * final stock price
+    final_portfolio_value = cash_balance[-1] + hedge_positions[-1] * stock_prices[-1]
+
+    # Final PnL is difference between portfolio value and intrinsic value of the option
+    final_pnl = final_portfolio_value - intrinsic_value
+
+    # Replace the last PnL with the correct final PnL
+    pnl[-1] = final_pnl
+
+    return time_points, pnl, stock_prices, hedge_positions
     return time_points,pnl,stock_prices,hedge_positions
