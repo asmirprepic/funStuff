@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 import numpy as np
 #from delta_hedging.delta_hedge import option_delta  # Import the Black-Scholes logic
-#from delta_hedging.stock_simulation import simulate_stock_price
+from delta_hedging.stock_simulation import simulate_stock_price
 from delta_hedging.delta_hedge import simulate_delta_hedge
 from components.header import display_header     # Import the header component
 import seaborn as sns
