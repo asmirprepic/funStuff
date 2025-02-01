@@ -1,0 +1,53 @@
+import gymnasium as gym 
+from gymnasium import spaces
+import numpy as np
+import random
+
+class DodgeFighterEvn(gym.Env):
+  """
+  Simple AI dodging environment
+  """
+  metadata = {'render.modes': ['human']}
+
+  def __init__(self):
+    super(DodgeFighterEvn, self).__init__()
+
+    #Observations
+    self.observation_spaces = spaces.Box(low = 0, high = 100, shape=(2,),dtype = np.float32)
+
+    # Actions (0 = stay, 1 = left, 2= right, 3 = jump, 4 = crouch)
+    self.action_spaces = spaces.Discrete(5)
+
+    self.reset()
+
+  def step(self, action):
+    # Move based on action
+    if action == 1:
+      self.agent_pos = max(0,self.agent_pos -5)
+    elif action == 2:
+      self.agent_pos = min(100,self.agent_pos +5)
+    elif action == 3:
+      pass
+    elif action == 4:
+      pass
+    
+
+    # Enemy movement towards player
+    self.enemy_pos = random.randint(2,7)
+
+    done = False
+    reward = 1
+    if (self.agent_pos-self.enemy_pos) < 5: 
+      rewards = -10
+      done = True
+
+    self.timestep += 1
+    return np.array([self.agent_pos,self.enemy_pos]),reward, done, False, {}
+
+  def render(self):
+    print(f"Agent pos = {self.agent_pos}, Enemy pos = {self.enemy_pos}")
+
+  def reset(self):
+    self.agent_pos = 50
+
+
