@@ -51,6 +51,18 @@ class RelationalToGraph:
         """
         return [node for node, degree in self.graph.degree() if degree == 0]
 
+    def get_shortest_path(self, source, target):
+        """
+        Get the shortest path between two nodes.
+        Provide source and target as the node keys (e.g., 'person_1').
+        """
+        try:
+            path = nx.shortest_path(self.graph, source, target)
+            return path
+        except nx.NetworkXNoPath:
+            return None
+
+
     def display_graph_info(self):
         """
         Print basic information about the graph.
