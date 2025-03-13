@@ -18,6 +18,12 @@ class RelationalToGraph:
         Load friendships from a list of dictionaries.
         """
         self.friendships = friendships_data
+        
+    def compute_degree_centrality(self):
+        """
+        Compute and return degree centrality for the graph.
+        """
+        return nx.degree_centrality(self.graph)
 
     def build_graph(self):
         """
