@@ -79,7 +79,14 @@ class RelationalToGraph:
         print("\nEdges in graph:")
         for u, v, data in self.graph.edges(data=True):
             print(f"  {u} <--> {v}, Data: {data}")
-
+    def detect_communities(self):
+        """
+        Detect communities using a greedy modularity approach.
+        Returns a list of sets, each set being a community.
+        """
+        from networkx.algorithms.community import greedy_modularity_communities
+        communities = list(greedy_modularity_communities(self.graph))
+        return communities
 
 # Example usage:
 if __name__ == '__main__':
