@@ -88,6 +88,21 @@ class RelationalToGraph:
         communities = list(greedy_modularity_communities(self.graph))
         return communities
 
+    def visualize_graph(self):
+        """
+        Visualize the graph using matplotlib.
+        """
+        plt.figure(figsize=(8, 6))
+        pos = nx.spring_layout(self.graph)
+        node_labels = {node: data.get('name', node) for node, data in self.graph.nodes(data=True)}
+        nx.draw(self.graph, pos, with_labels=True, labels=node_labels, node_color='lightblue', node_size=1500, edge_color='gray')
+        edge_labels = {(u, v): data.get('friendship_strength', '') for u, v, data in self.graph.edges(data=True) if data.get('friendship_strength') is not None}
+        if edge_labels:
+            nx.draw_networkx_edge_labels(self.graph, pos, edge_labels=edge_labels)
+        plt.title("Social Network Graph")
+        plt.axis('off')
+        plt.show()
+
 # Example usage:
 if __name__ == '__main__':
     # Sample relational data
