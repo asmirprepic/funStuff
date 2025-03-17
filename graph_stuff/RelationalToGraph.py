@@ -67,7 +67,14 @@ class RelationalToGraph:
             return path
         except nx.NetworkXNoPath:
             return None
-
+    def detect_communities(self):
+        """
+        Detect communities using a greedy modularity approach.
+        Returns a list of sets, each set being a community.
+        """
+        from networkx.algorithms.community import greedy_modularity_communities
+        communities = list(greedy_modularity_communities(self.graph))
+        return communities
 
     def display_graph_info(self):
         """
