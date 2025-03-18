@@ -76,6 +76,20 @@ class RelationalToGraph:
         communities = list(greedy_modularity_communities(self.graph))
         return communities
 
+    def recommend_friends(self, person_id):
+        """
+        Recommend friends for a given person based on mutual friends.
+        Returns a dictionary with potential friend and the count of mutual friends.
+        """
+        current_friends = set(self.get_person_friends(person_id))
+        recommendations = {}
+        for friend in current_friends:
+            for potential in self.get_person_friends(friend):
+                if potential != person_id and potential not in current_friends:
+                    recommendations[potential] = recommendations.get(potential, 0) + 1
+        # Return recommendations sorted by number of mutual friends
+        return dict(sorted(recommendations.items(), key=lambda x: x[1], reverse=True))
+    
     def display_graph_info(self):
         """
         Print basic information about the graph.
