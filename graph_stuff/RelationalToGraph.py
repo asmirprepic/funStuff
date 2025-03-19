@@ -109,6 +109,29 @@ class RelationalToGraph:
         communities = list(greedy_modularity_communities(self.graph))
         return communities
 
+    def simulate_network_growth(self, num_new_nodes=1, max_new_edges=2):
+        """
+        Simulate network growth by randomly adding new persons and friendships.
+        :param num_new_nodes: Number of new persons to add.
+        :param max_new_edges: Maximum number of friendships for each new person.
+        """
+        max_person_id = max(self.graph.nodes) if self.graph.nodes else 0
+        for i in range(1, num_new_nodes + 1):
+            new_id = max_person_id + i
+            # Create a new person with random age between 20 and 50
+            new_person = {'PersonID': new_id, 'Name': f'Person_{new_id}', 'Age': random.randint(20, 50)}
+            self.add_person(new_person)
+            # Randomly connect this new person with some existing persons
+            potential_friends = list(self.graph.nodes)
+            # Exclude the new person itself if it's already in the list
+            potential_friends = [pid for pid in potential_friends if pid != new_id]
+            num_edges = random.randint(1, max_new_edges)
+            friends = random.sample(potential_friends, min(num_edges, len(potential_friends)))
+            for friend in friends:
+                # Create a friendship with random strength
+                friendship = {'PersonID': new_id, 'FriendID': friend, 'FriendshipStrength': round(random.uniform(0.1, 1.0), 2)}
+                self.add_friendship(friendship)
+
     def visualize_graph(self):
         """
         Visualize the graph using matplotlib.
