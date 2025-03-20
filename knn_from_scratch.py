@@ -7,6 +7,8 @@ def initialize_centroid(X: np.ndarray,k:int) -> np.ndarray:
 def distance(X: np.ndarray,centroids: np.ndarray)-> np.ndarray:
   # Holder for distance
   distances = np.zeros(X.shape[0],len(centroids)))
+
+  
   for i, centroid in enumerate(centroids):
     distances[:,i] = np.linalg.norm(X-centroid,axis = 1)
   return distances
