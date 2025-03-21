@@ -147,6 +147,26 @@ class RelationalToGraph:
         plt.axis('off')
         plt.show()
 
+    def compute_graph_statistics(self):
+        """
+        Compute and print graph-wide statistics such as:
+         - Number of nodes
+         - Number of edges
+         - Graph density
+         - Average clustering coefficient
+        """
+        num_nodes = self.graph.number_of_nodes()
+        num_edges = self.graph.number_of_edges()
+        density = nx.density(self.graph)
+        avg_clustering = nx.average_clustering(self.graph)
+        stats = {
+            'Number of Nodes': num_nodes,
+            'Number of Edges': num_edges,
+            'Density': density,
+            'Average Clustering Coefficient': avg_clustering
+        }
+        return stats
+
 # Example usage:
 if __name__ == '__main__':
     # Sample relational data
