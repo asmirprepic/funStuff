@@ -30,3 +30,8 @@ class GraphMLPipeline:
     """
     Return an embedding matrix
     """
+    if self.embeddings is None:
+      raise ValueError("Embeddings have not been computed")
+    nodes = list(self.embeddings.keys())
+    matrix = np.array([self.embeddings[node] for node in nodes])
+    return matrix,nodes
