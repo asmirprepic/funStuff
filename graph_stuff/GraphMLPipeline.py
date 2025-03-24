@@ -35,3 +35,37 @@ class GraphMLPipeline:
     nodes = list(self.embeddings.keys())
     matrix = np.array([self.embeddings[node] for node in nodes])
     return matrix,nodes
+
+  def classify_nodes(self,labels,test_size = 0.3, random_state = 42):
+    """
+    Node classification using logistic regression
+    labels: Dictionary mapping node id to class label.
+
+    Returns:
+    -----------
+    Tuple (accuracy, trained classifier)
+
+    """
+    matrix,nodes = self.get_embedding_matrix_and_nodes()
+
+    X = matrix
+    y = np.array([labels(int)] for node in nodes])
+    X_train,X_test, y_train,y_test = train_test_split(X,y,test_size = test_size, random_state = random_state)
+    clf = LogisticRegression(max_iter = 1000)
+    clf.fit(X_train,y_train)
+    y_pred = clf.predict(X_test)
+    accuracy = accuracy_score(y_test,y_pred)
+    return accuracy, clf
+
+  def cluster_nodes(self,n_clusters=3):
+    """
+    Cluster nodes using K-means on the embedding matrix
+    Returns a dictionary mapping node id to cluster label
+    """
+
+    matrix,nodes = self.get_embedding_matrix_and_nodes()
+    kmeans = KMeans(n_clusters = n_clusters,random_state = 42)
+    clusters = kmeans.fit_predict(matrix)
+    cluster_mapping = {int(node): cluster for node, cluster in zip(nodes,clusters)}
+    return cluster_mapping
+
