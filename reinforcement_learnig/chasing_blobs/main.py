@@ -10,7 +10,7 @@ if __name__ == "__main__":
     episodes = 10_000_0
     move_penalty = 0
     enemy_penalty = 1000
-    food_reward = 25
+    food_reward = 50
     epsilon = 0.99  # Initial exploration rate
     show_every = 1000  # How often to display the environment
 
