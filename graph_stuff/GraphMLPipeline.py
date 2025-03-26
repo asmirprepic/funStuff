@@ -57,6 +57,22 @@ class GraphMLPipeline:
     accuracy = accuracy_score(y_test,y_pred)
     return accuracy, clf
 
+  def visualize_embeddings_tsne(self, perplexity=30, n_iter=1000):
+      """
+      Visualize the node embeddings in 2D using t-SNE.
+      """
+      matrix, nodes = self.get_embedding_matrix_and_nodes()
+      tsne = TSNE(n_components=2, perplexity=perplexity, n_iter=n_iter, random_state=42)
+      tsne_results = tsne.fit_transform(matrix)
+      plt.figure(figsize=(8, 6))
+      plt.scatter(tsne_results[:, 0], tsne_results[:, 1])
+      for i, node in enumerate(nodes):
+          plt.annotate(node, (tsne_results[i, 0], tsne_results[i, 1]))
+      plt.title("t-SNE Visualization of Node Embeddings")
+      plt.xlabel("Dimension 1")
+      plt.ylabel("Dimension 2")
+      plt.show()
+
   def cluster_nodes(self,n_clusters=3):
     """
     Cluster nodes using K-means on the embedding matrix
