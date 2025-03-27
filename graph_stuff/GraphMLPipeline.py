@@ -73,6 +73,17 @@ class GraphMLPipeline:
       plt.ylabel("Dimension 2")
       plt.show()
 
+  def compute_node_anomaly_scores(self):
+        """
+        Compute a simple anomaly score based on the absolute deviation of a node's degree from the network average.
+        Returns a dictionary mapping node id to its anomaly score.
+        """
+        degrees = dict(self.graph.degree())
+        avg_degree = np.mean(list(degrees.values()))
+        anomaly_scores = {node: abs(degree - avg_degree) for node, degree in degrees.items()}
+        return anomaly_scores
+
+  
   def cluster_nodes(self,n_clusters=3):
     """
     Cluster nodes using K-means on the embedding matrix
