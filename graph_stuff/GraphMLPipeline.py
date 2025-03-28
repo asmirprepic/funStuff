@@ -21,7 +21,7 @@ class GraphMLPipeline:
       Returns a dictionary mapping node to embedding vector.
 
     """
-    node2vec= Node2Vec(self.graph,dimensions = dimensions, walk_length = walk_length, num-walks = num_walks, p=p, q=q, workers = 4)
+    node2vec= Node2Vec(self.graph,dimensions = dimensions, walk_length = walk_length, num_walks = num_walks, p=p, q=q, workers = 4)
     model = node2vec.fit(window = 10, min_count =1)
     self.embeddings = {str(node): model.wv.get_vector(str(node)) for node in self.graph.nodes()}
     return self.embeddings
@@ -83,6 +83,20 @@ class GraphMLPipeline:
         anomaly_scores = {node: abs(degree - avg_degree) for node, degree in degrees.items()}
         return anomaly_scores
 
+  def compute_graph_stats(self):
+        """
+        Compute basic graph statistics.
+        """
+        num_nodes = self.graph.number_of_nodes()
+        num_edges = self.graph.number_of_edges()
+        density = nx.density(self.graph)
+        avg_clustering = nx.average_clustering(self.graph)
+        return {
+            "num_nodes": num_nodes,
+            "num_edges": num_edges,
+            "density": density,
+            "avg_clustering": avg_clustering
+        }
   
   def cluster_nodes(self,n_clusters=3):
     """
