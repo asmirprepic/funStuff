@@ -44,7 +44,16 @@ class RelationalToGraph:
                 friendship['FriendID'],
                 friendship_strength=friendship.get('FriendshipStrength')
             )
-
+    def add_person(self, person):
+        """
+        Dynamically add a person node.
+        """
+        self.persons.append(person)
+        self.graph.add_node(
+            person['PersonID'],
+            name=person.get('Name'),
+            age=person.get('Age')
+        )
     def get_person_friends(self, person_id):
         """
         Return a list of friend IDs for the given person.
