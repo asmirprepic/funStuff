@@ -1,4 +1,8 @@
 import networkx as nx
+import random
+import matplotlib.pyplot as plt
+import faker as Faker
+
 
 class RelationalToGraph:
     def __init__(self):
@@ -6,7 +10,25 @@ class RelationalToGraph:
         self.persons = []         # List of person dictionaries: {'PersonID': int, 'Name': str, 'Age': int}
         self.friendships = []     # List of friendship dictionaries: {'PersonID': int, 'FriendID': int, 'FriendshipStrength': float}
         self.graph = nx.Graph()   # Using an undirected graph for a simple social network
+        self.fake = Faker()
 
+    def generate_fake_poeple(self,num_people):
+        """
+        Generate fake people using faker.
+        Each person will have a unique id a name and a random age
+        
+        """
+
+        people = []
+        for i in range(1,num_people +1):
+            person = {
+                'PersonId': i,
+                'Name': self.fake.name(),
+                'Age': random.randomint(18,80)
+            }
+        self.people = people[]
+        return people
+    
     def load_persons(self, persons_data):
         """
         Load persons from a list of dictionaries.
