@@ -1,7 +1,7 @@
 import networkx as nx
 import random
 import matplotlib.pyplot as plt
-import faker as Faker
+from faker import Faker
 
 
 class RelationalToGraph:
@@ -26,8 +26,9 @@ class RelationalToGraph:
                 'Name': self.fake.name(),
                 'Age': random.randomint(18,80)
             }
-        self.people = people[]
-        return people
+            people.append(person)
+        self.persons = people
+        return self.persons
     
     def load_persons(self, persons_data):
         """
