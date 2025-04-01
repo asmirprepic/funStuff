@@ -40,7 +40,7 @@ class DataGenerator:
                     friendship = {
                         'PersonID': person,
                         'FriendID': friend,
-                        'FriendshipStrength': round(random.uniform(0.1, 1.0), 2)
+                        'FriendshipStrength': round(random.uniform(0.0, 1.0), 2)
                     }
                     friendships.append(friendship)
         return friendships
