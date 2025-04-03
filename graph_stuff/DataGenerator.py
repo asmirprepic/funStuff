@@ -16,7 +16,11 @@ class DataGenerator:
             person = {
                 'PersonID': i,
                 'Name': faker.name() if use_faker else f'Person_{i}',
-                'Age': random.randint(18, 80)
+                'Age': random.randint(18, 80),
+                'Email': faker.email() if use_faker else f'person_{i}@example.com',
+                'Address': faker.address() if use_faker else 'N/A',
+                'Occupation': faker.job() if use_faker else 'Unemployed',
+                'Interests': faker.words(nb=random.randint(1, 5)) if use_faker else []
             }
             persons.append(person)
         return persons
