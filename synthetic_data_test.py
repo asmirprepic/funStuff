@@ -1,3 +1,6 @@
+
+import numpy as np
+
 def generate_synthetic_data(n_samples=1000, n_outliers=50):
     rng = np.random.RandomState(42)
     # Generate normal data: for example, normal operating metrics
