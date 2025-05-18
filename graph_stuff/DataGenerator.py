@@ -10,7 +10,7 @@ class DataGenerator:
         If use_faker is True, use realistic fake names. 
         """
         persons = []
-        faker = Faker() if use_faker else None:
+        faker = Faker() if use_faker else None
         
         for i in range(1, num_persons + 1):
             person = {
@@ -73,5 +73,5 @@ class DataGenerator:
 
         for i in range(1, num_new_nodes +1):
             new_id = max_person_id
-            new_person = {'PersonID': new_id, 'Name': faker.name() if use_faker is True}
+            new_person = {'PersonID': new_id, 'Name': faker.name() if use_faker is True else None}
         

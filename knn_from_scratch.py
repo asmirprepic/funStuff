@@ -6,14 +6,14 @@ def initialize_centroid(X: np.ndarray,k:int) -> np.ndarray:
 
 def distance(X: np.ndarray,centroids: np.ndarray)-> np.ndarray:
   # Holder for distance
-  distances = np.zeros(X.shape[0],len(centroids)))
+  distances = np.zeros(X.shape[0],len(centroids))
 
   
   for i, centroid in enumerate(centroids):
     distances[:,i] = np.linalg.norm(X-centroid,axis = 1)
   return distances
 
-def assing_cluster(X: np.ndarray,centroids: np.ndarray) -> np.ndarray:
+def assign_cluster(X: np.ndarray,centroids: np.ndarray) -> np.ndarray:
   distances = distance(X,centroids)
   np.argmin(distances,axis = 1)
 
@@ -30,7 +30,7 @@ def kmeans(X: np.ndarray,k: int,max_iters: int = 1000,tolerance: float = 1e-6) -
   centroids = initialize_centroid(X,k)
 
   for _ in range(max_iters):
-    labels = assign_clusters(X,centroids)
+    labels = assign_cluster(X,centroids)
 
     new_centroids = update_centroid(X,labels, k)
 
@@ -38,5 +38,5 @@ def kmeans(X: np.ndarray,k: int,max_iters: int = 1000,tolerance: float = 1e-6) -
       break
     centroids = new_centroids
 
-return centroid, labels
+  return centroid, labels
   

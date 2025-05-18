@@ -5,6 +5,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
 
 class GraphMLPipeline:
   def __init__(self,grap):
@@ -49,7 +50,7 @@ class GraphMLPipeline:
     matrix,nodes = self.get_embedding_matrix_and_nodes()
 
     X = matrix
-    y = np.array([labels(int)] for node in nodes])
+    y = np.array([labels(int) for node in nodes])
     X_train,X_test, y_train,y_test = train_test_split(X,y,test_size = test_size, random_state = random_state)
     clf = LogisticRegression(max_iter = 1000)
     clf.fit(X_train,y_train)
